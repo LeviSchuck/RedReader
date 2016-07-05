@@ -1,0 +1,15 @@
+uint32    num ambient sounds
+ambsnd*
+
+ambient sound
+uint32    uid
+float   x
+float   y
+float   z
+uint8   unk1
+rflstring filename
+float   min dist
+float   volume scale
+float   rolloff
+uint32    start delay
+//script name, always show range, and play in editor arent saved

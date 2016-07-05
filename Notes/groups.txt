@@ -1,0 +1,63 @@
+uint32    num groups
+GROUPs
+
+
+GROUP
+rflstring group name
+uint8   unk1
+uint8   group type: 0 - user-defined, 1 - moving
+uint32    num objects (type 1, num keyframes)
+  if user-defined grp
+    repeated uint32 object uids
+  if moving grp
+    uint32 uid
+    float x
+    float y
+    float z
+
+    float9 3d rotation matrix
+
+    rflstring script name
+    uint8  unk10
+    float  pause time
+    float  depart time
+    float  return time
+    float  accel time
+    float  decel time
+    uint32 "trigger event with uid" (-1 if blank)
+    uint32 "contains item uid" 1  (-1 if blank)
+    uint32 "contains item uid" 2  (-1 if blank)
+    float  rotate degrees
+uint32    num brushes (type 1, num group contents)
+  if user-defined grp
+    repeated uint32 brush uids
+  if moving grp
+    uint32 uid of brush or object
+    float x offset from gold keyframe
+    float y offset from gold keyframe
+    float z offset from gold keyframe
+    float9 3d rotation matrix
+IF MOVING GROUP, MOVER INFO FOLLOWS
+  bool  is door
+  bool  rotate in place
+  bool  starts moving backwards
+  bool  travel time as velocity
+  bool  force orient
+  bool  no player collide
+  uint32  unk1 //usually 1, sometimes 2, sometimes 5    1 = brushes   2 = objects,brushes???
+  uint32  unk2
+  rflstring start sound
+  float volume
+  rflstring looping sound
+  float volume
+  rflstring stop sound
+  float volume
+  rflstring close sound
+  float volume
+  uint32  num objects in group
+  uint32* list of object uids
+  uint32  num brushes in group
+  uint32* list of brush uids
+
+uint32    unk2
+uint32    unk3

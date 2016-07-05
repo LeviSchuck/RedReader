@@ -1,0 +1,13 @@
+Notes in RED.EXE:
+
+Map loader: sub_41cce0
+
+Functions of interest:
+sub_430bf0
+
+Table loading?
+sub_431d80
+
+Magic numbers:
+0x156c910
+0x585310

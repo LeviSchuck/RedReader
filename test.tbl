@@ -1,0 +1,732 @@
+#particle emitter types
+
+// ----------------------------------------------------------------------------------
+$Name:               "missile"
+$pos:                <0,0,-0.5>
+$dir:                <0,0,-1>
+$dir_rand:           -1
+$min_vel:            0
+$max_vel:            0.25
+$spawn_radius:       0
+$min_spawn_delay:    0
+$max_spawn_delay:    0
+$emitter_flags:      "immediate, continuous"
+$initially_on:      yes
+$alternate_states:  no
+$min_life_secs:      0.6
+$max_life_secs:      1.3
+$min_pradius:        0.25
+$max_pradius:        0.5
+$growth_rate:        0.5
+$acceleration:       0
+$gravity_scale:      -0.05
+$bitmap:             "smoketest.tga"
+$particle color:     {255,255,255,64}
+$particle color dest:{255,255,255,0}
+$particle flags:    "gravity, clr_change"
+#end
+
+#German
+Insert German credits here.
+And more german credits.
+#End
+
+#Materials
+
+$name:            "default"
+$bitmap prefix:   "none"
+$elasticity:    0.5
+$friction:      0.5
+$density:     2500
+$bouyancy:        0
+$traction:        1
+$debris bitmap:   ""
+
+
+#End
+
+
+#Material Hit Sounds
+
+
+// The numbers in here represent the number of different impact sounds that will be
+// loaded for a particular combination of materials.
+// For example, the number 3 in the "rock" column and the "lava" row will 
+// load the sounds "rock_hit_lava1.wav" thru "rock_hit_lava3.wav".
+
+
+        "default" "rock" "metal" "flesh" "water" "lava" "solid" "glass" "sand" "ice"  
+"default"   0     0     0   0     0     0   0     0   0   0   
+"rock"      0     3     3   0     0     0   0     0   0   0   
+"metal"     0     0     3   0     0     0   0     0   0   0
+"flesh"     0     0     0   0     0     0   0     0   0   0   
+"water"     0     0     0   0     0     0   0     0   0   0
+"lava"      0     0     0   0     0     0   0     0   0   0
+"solid"     0     0     0   0     0     0   0     0   0   0   
+"glass"     0     0     0   0     0     0   0     0   0   0   
+"sand"      0     0     0   0     0     0   0     0   0   0   
+"ice"       0     0     0   0     0     0   0     0   0   3   
+
+#End
+
+#Items
+
+$Class Name:        "Remote Charge"
+$HUD Msg Name:      XSTR(293, "Remote Charge, wooty, have fun!")
+$Pickup Msg Single: XSTR(294, "Remote Charge picked up, wooty, have fun!")
+$Pickup Msg Multi:  XSTR(295, "%d Remote Charges picked up, wooty, have fun!")
+$V3D Filename:      "rmt_explosive.V3D"
+$V3D Type:          "static"
+$Count:             100
+$Respawn Time:      5
+$Gives Weapon:      "remote charge"
+$Flags:             ("spins_in_multi")
+
+$Class Name:        "shoulder cannon"
+$HUD Msg Name:      XSTR(328, "Fusion Rocket Launcher, put your head back on your arm.")
+$Pickup Msg Single: XSTR(329, "Fusion Rocket Launcher picked up, put your head back on your arm.")
+$Pickup Msg W&A Single: XSTR(619, "Fusion Rocket Launcher and 1 shell picked up, put your head back on your arm.")
+$Pickup Msg W&A Multi:  XSTR(620, "Fusion Rocket Launcher and %d shells picked up, put your head back on your arm.")
+$V3D Filename:      "weapon_shoulder.V3D" 
+//$V3D Filename:      "Powerup_UndercoverSCI.V3D"
+$V3D Type:          "static"
+$Count:             180
+$Respawn Time:      10
+$Gives Weapon:      "shoulder_cannon"
+$Flags:             ("spins_in_multi")
+
+
+
+$Class Name:        "12mm_ammo"
+$HUD Msg Name:      XSTR(330, "12mm rounds")
+$Pickup Msg Single: XSTR(331, "1 12mm round picked up, cookies?")
+$Pickup Msg Multi:  XSTR(332, "%d 12mm rounds picked up, cookies?")
+$V3D Filename:      "Item_pistol_ammo.V3D"
+$V3D Type:          "static"
+$Count:            90
+$Count Multi:   64
+$Respawn Time:      20
+$Ammo For:          "12mm handgun"
+$Flags:             ("spins_in_multi")
+
+$Class Name:      "base_red"
+$HUD Msg Name:    XSTR(374, "Shouldn't be using this")
+$V3D Filename:    "CTFbase_red.v3d"
+$V3D Type:        "static"
+$Count:           1
+$Respawn Time:    -1
+$Flags:           ()
+
+#End
+
+#Primary Weapons
+
+$Name:                  "Remote Charge"
+$Display Name:      XSTR(296, "Remote Charge")
+$V3D Filename:          "rmt_explosive.v3d"
+$Flags:                 ("remote_charge" "alt_fire" "player_wep" "underwater" "silent" "gravity")
+$Flags2:                ("no_fire_through" "damage_self")
+$Cycle Position:      0
+$Pref Position:     13
+$Fine Aim Region Size:  0.65
+$Fine Aim Region Size SS: 0.65
+$Weapon Type:       "explosive"
+$Weapon Icon:       "ws_remotecharge.tga"
+$Damage Type:       "explosive"
+$3rd Person V3D:        "weapon_remote_charge.v3d"
+//$3rd Person V3D:        "toilet1.v3d"
+$1st Person Mesh:        "fp_rmt_chrg.v3d"
+$1st Person FOV:        70
+$1st Person offset:     <0.3,0.0,0.2>
+$1st Person offset SS:  <0.4,0.0,0.2>
++State:                 "idle"         "fp_rmt_chrg_idle.mvf"
++State:                 "run"          "fp_rmt_chrg_run.mvf"
++Action:                "draw"         "fp_rmt_chrg_draw.mvf"       "Charge Draw"
++Action:                "fire"         "fp_rmt_chrg_throw.mvf"      "Charge Throw"
++Action:                "alt_fire"     "fp_rmt_chrg_place.mvf"      "Charge Throw"
++Action:                "idle_1"       "fp_rmt_chrg_idlerub.mvf"    "Charge Idle Rub"
++Action:                "idle_2"       "fp_rmt_chrg_idletoss.mvf"   "Charge Idle Tap"
++Action:                "holster"      "fp_rmt_chrg_holster.mvf"    "Glock Holster"
++Action:                "jump"         "fp_rmt_chrg_jump.mvf"       ""
+$Bitmap Filename:       ""
+$HUD Icon Filename:     ""
+$HUD Reticle Filename:  "reticle.tga"
+$PS2 Selection Icon Filemame: "ws_remcharge.tga"
+$Collision Radius:      0.051
+$Max Ammo:           20 21
+$Ammo Type:             "remote charge"
+$AI attack range:     10.0 10.0
+$Mass:                  3
+$Velocity:              46
+$Fire Wait:             0.75
+$Damage:                150
+$Damage Multi:      4000
+$Lifetime:              40.0
+$Homing:                true
+   +Turn Time:      0.01
+   +View Cone:      359.0
+   +Scanning Range:   40.0
+   +Wakeup Time:    0.0
+$Launch:                "Remote Charge Launch"
+$Alt Launch:            "Remote Charge Alt Launch"
+$Fly Sound:             "techno.wav"  6 0.05
+$Impact Delay:          0.35
+$Alt Impact Delay:      0.25
+$Impact Sound:          "default" "Remote Charge Hit Default"
+$Geomod Sound:          "Weapon Geomod Small"
+$Impact Vclips:          ("charge_explode")
+$Impact Vclips Radius:   (2.0)
+$Damage Radius:     5.0
+$Damage Radius Multi:     20.0
+  +Crater Radius:      10.0
+$Sticky:                true
+  +Stick Sound:   "default" "attach_02.wav"   5 0.8
+  +Embedded V3D Filename: ""
+$Glow:                  false
+$Scorch Bitmap:     "missileblastmk01_A.tga"
+$Scorch Size:       <10.0, 10.0, 10.0>
+$Camera Shake:
+  +Distance:        2.0055  
+  +Time:          1.17
+
+
+$Name:                  "Sniper Rifle"
+$Display Name:          XSTR(307, "Sniper Rifle")
+$V3D Filename:          ""
+$Flags:                 ("player_wep" "alt_zoom" "from_eye" "fixed_muz_flash" "underwater")
+$Flags2:                ("undeviating")
+$Cycle Position:      4
+$Pref Position:     6
+$Fine Aim Region Size:  0.35
+$Fine Aim Region Size SS: 0.55
+$Weapon Type:       "semi-auto"
+$Weapon Icon:       "ws_sniper.tga"
+$Damage Type:       "armor piercing bullet"
+$3rd Person V3D:        "Weapon_SniperRifle.v3d"
+//$3rd Person V3D:        "Firehose.v3d"
+$3rd Person Muzzle Flash Glare:   "Sniper Muzzle Flash"
+$1st Person Mesh:        "fp_SniperRifle.v3d"
+$1st Person FOV:        65
+$1st Person offset:     <-0.05,.07,-.22>
+$1st Person offset SS:  <0.05,.07,-.22>
+$1st Person Muzzle Flash Bitmap:   "muzzleflash02.tga"
+$1st Person Muzzle Flash Radius:   1.4
++State:                 "idle"       "fp_SniperRifle_idle.mvf"
++State:                 "run"        "fp_SniperRifle_run.mvf"
++Action:                "fire"       "fp_SniperRifle_fire.mvf"           ""
++Action:                "idle_1"     "fp_SniperRifle_scopeadjust.mvf"    "Sniper Scope Adjust" 
++Action:                "idle_2"     "fp_SniperRifle_scratch.mvf"        "Sniper Scratch"
++Action:                "reload"     "fp_SniperRifle_reload.mvf"         "Sniper Reload"
++Action:                "draw"       "fp_SniperRifle_draw.mvf"           "Sniper Draw"
++Action:                "holster"    "fp_SniperRifle_holster.mvf"        "Sniper Holster"
++Action:            "jump"       "fp_SniperRifle_jump.mvf"           ""
+$Bitmap Filename:       ""
+$HUD Icon Filename:     ""
+$HUD Reticle Filename:      "scope_ret.tga"
+$HUD Zoomed Reticle Filename: "reticle.tga"
+$PS2 Selection Icon Filemame: "ws_sniper.tga"
+$Collision Radius:      0.02
+$Max Ammo:           70 190
+$Ammo Type:             ".50 cal AP"
+$AI attack range:     100.0 100.0
+$Clip Size:             15 15
+$Clip Reload Time:      2.25
+$Mass:                  0.2
+$Velocity:              275.0
+$Fire Wait:             0.70
+$Spread Degrees:        1.5 
+$Spread Degrees Multi:  3.25
+$AI Spread Degrees:     2.0 2.0
+$Damage:                150 
+$Damage Multi:      254
+$AI Damage Scale:     0.5 1.0
+$Lifetime:              16.0
+$Homing:                false
+$Launch:                "Sniper Launch"
+$Alt Launch:            "Sniper Alt Launch"
+$Launch Fail:           "Glock Fail"
+$Fly Sound:             ""
+$Zoom Sound:        "sniper_aim_01.wav"        4 0.8
+$Impact Sound:          "default"    "Gun Hit Default"
+$Impact Sound:          "flesh"    "Gun Hit Flesh"
+$Impact Sound:          "metal"    "Gun Hit Metal"
+$Impact Sound:          "rock"     "Gun Hit Rock"
+$Impact Sound:          "water"    "Gun Hit Water"
+$Impact Sound:      "glass"    "Gun Hit Glass"
+$Near Miss Sound:       "Glock Ricochet"
+$Near Miss Underwater:  "Glock Alt Launch"
+$Impact Vclips:         ("FGatE_bigspark" "gatsmoke")
+$Impact Vclips Radius:  (0.3 0.3)
+$Damage Radius:         0.0
+$Sticky:                false
+$Glow:                  false
+$Muzzle Flash Light:    true
+   +Inner Radius:       3.0
+   +Outer Radius:       6.0
+   +Color:              {255,255,192}
+$Scorch Bitmap:     "bullethole01_A.tga"
+$Scorch Size:       <0.2, 0.2, 0.2>
+$Glass Decal Bitmap:    "bullethole02glass_A.tga"
+$Glass Decal Size:    <0.3, 0.3, 0.3>
+$Shells Ejected:
+  +V3D:           "fp_sniper_shell.v3d"
+  +Base Dir:        <0.5, 2.5, 1.0>
+  +Eject Velocity:    4.0
+  +Custom Sound Set:  "9mm shell casings"
+$Clips Ejected:
+  +V3D:           "powerup_SniperClip.v3d"
+  +Drop Pause Time:    0.75
+  +Custom Sound Set:  "clip eject"
+$Camera Shake:
+  +Distance:        0.00001 
+  +Time:          4.17
+$Piercing:        true
+  +Piercing Power:  1.0
+  +Ricochet Angle:  45.0
+  +Ricochet Bitmap: "scrape.tga"
+  +Ricochet Size:   <0.3, 0.3, 0.3>
+$Reload Zero Drain:   .6
+
+#End
+
+#Secondary Weapons
+
+$Name:                  "Drone Missile"
+$V3D Filename:          "DrillMissile01.VFX"
+$Flags:                 ("flickers" "thruster")
+$Flags2:                ("undeviating" "no_fire_through")
+$Damage Type:       "explosive"
+$Bitmap Filename:       ""
+$Collision Radius:      0.15
+$Max Ammo:              12 12
+$Ammo Type:             "15cm rocket"
+$AI attack range:     30.0 30.0
+$Mass:                  2.0
+$Velocity:              20.0
+$Fire Wait:             4.0
+$Damage:                15 
+$Damage Multi:      15
+$Lifetime:              5.0
+$Homing:                false
+$Launch:                "Missile Launch Drone"
+$Fly Sound:             "missile_loop.wav"              10 0.9
+$Impact Sound:          "default" "Small Explosion"
+$Geomod Sound:          "Weapon Geomod Small"
+$Impact Vclips:          ("big_charge_explode")
+$Impact Vclips Radius:   (7.0)
+$Trail emitter:         "missile"
+$Damage Radius:         2.0
+   +Crater Radius:      5.0
+$Sticky:                false
+$Glow:                  false
+$Scorch Bitmap:     "missileblastmk01_A.tga"
+$Scorch Size:       <4.0, 4.0, 4.0>
+
+
+#End
+
+#Entity Classes
+
+
+  $Name:                  "comp_tech"
+  $V3D Filename:          "Hendrix.vcm"
+        $LOD Distances:     { 6 9 }
+  $Movemode:              "run"
+  $Mass:                  100
+  $Material:              "flesh"
+  $Flags:                 ("walk" "fly" "climb" "holds_weapons" "sentient" "swim" "mouselook" "humanoid"  "medic" )
+  $Flags2:                ("collide_player")
+  $Collision Radius:      0.90
+  $Collision Damage Given:  10.0
+  $Movement Radius:     0.5
+  $FOV:                   180
+  $Envirosuit:            1000
+  $Life:                  1000
+  $Damage Type Factor:    "armor piercing bullet"   1.5
+  $Max Vel:          6.0
+     +slow factor:        0.5
+     +fast factor:        1.5
+  $Acceleration:          20.0
+  $Max Rot Vel:           3.0
+  $Rot Acceleration:      2.0
+  $Allowed Weapons:       ("")
+  $Default Primary:       ""
+  $Default Secondary:     ""
+  $Attack Style:          "Direct"
+  $Blind Pursuit Time:    5.0
+  $Persona:         "tech"
+  $FlySnd:                ""
+  $Min FlySnd Volume:     0.6
+  $Footstep Sound:    "Default Footstep"
+  $Footstep Sound:    "Rock Footstep"
+  $Footstep Sound:    "Metal Footstep"
+  $Footstep Sound:    "Solid Footstep"
+  $Footstep Sound:    "Water Footstep"
+  $Footstep Sound:    "Ice Footstep"
+  $Climb Footstep Sounds: "Default Climb"
+  $Climb Footstep Sounds: "Ladder Climb"
+  $Climb Footstep Sounds: "Chain-Fence Climb"
+  $LandSnd:               "Default Land"
+  $LandSnd:               "Metal Land"
+  $LandSnd:               "Solid Land"
+  $LandSnd:               "Water Land"
+  $Impact Death Sound:    "Impact Death"
+  $JumpSnd:               "Jump"
+  $Headlamp On Sound:   "Headlamp On"
+  $Headlamp Off Sound:    "Headlamp Off"
+  $Low_Pain Sounds:       "Tech Small Pain"
+  $Med_Pain Sounds:       "Tech Large Pain"
+  +State:                 "stand"                  "tech01_stand.mvf"
+  +State:                 "attack_stand"           "tech01_stand.mvf"
+  +State:                 "walk"                   "tech01_walk.mvf"
+    +Footstep Trigger:  5 19
+  +State:                 "run"                    "tech01_run.mvf"
+    +Footstep Trigger:      6 15
+  +State:                 "flee_run"               "tech01_run_flee.mvf"
+    +Footstep Trigger:      6 15
+  +State:                 "flail_run"              "tech01_run_flail.mvf"
+    +Footstep Trigger:      6 15
+  +State:                 "freefall"               "tech01_freefall.mvf"
+  +State:                 "cower"                  "tech01_cower_loop.mvf"
+  +State:                 "crouch"                 "tech01_crouch.mvf"
+  +Action:                "idle_1"                 "tech01_idle_01.mvf"                     "Tech1 Idle"
+  +Action:                "speak"                  "hndx_talk.mvf"                        ""
+  +Action:                "speak_short"            "hndx_talk_short.mvf"                  ""
+  +Action:                "corpse_drop"            "tech01_death_corpse_drop.mvf"           ""
+  +Action:                "corpse_carry"           "tech01_corpse_carry.mvf"                ""
+  +Action:                "flinch_chest"           "tech01_flinch.mvf"                      ""
+  +Action:                "flinch_back"            "tech01_flinch_back.mvf"                 ""
+  +Action:                "flinch_leg_left"        "tech01_flinch_leg_L.mvf"                ""
+  +Action:                "flinch_leg_right"       "tech01_flinch_leg_R.mvf"                ""
+  +Action:                "death_generic"          "tech01_death_generic.mvf"               "Human Death Generic 1"
+  +Action:                "death_blast_forward"    "tech01_blast_forwards.mvf"              "Human Death Blast Forward 1"
+  +Action:                "death_blast_backward"   "tech01_death_leg_L.mvf"                  "Human Death Blast Backward 1"
+  +Action:                "death_head_forward"     "tech01_death_head_fore.mvf"             "Human Death Head Forward 1"
+  +Action:                "death_head_backward"    "tech01_death_head_back.mvf"             "Human Death Head Backward 1"
+  +Action:                "death_head_neutral"     "tech01_death_generic.mvf"               "Human Death Generic 1"
+  +Action:                "death_chest_forward"    "tech01_death_torso_forward.mvf"         "Human Death Chest Forward 1"
+  +Action:                "death_chest_backward"   "tech01_death_spin_fall_L.mvf"           "Tech1 Death Spin L"
+  +Action:                "death_chest_neutral"    "tech01_death_generic.mvf"               "Human Death Generic 1"
+//  +Action:                "death_leg_left"         "tech01_death_leg_L.mvf"                 "Human Death Left 1"
+  +Action:                "death_leg_right"        "tech01_death_leg_R.mvf"                 "Human Death Right 1"
+  +Action:                "death_crouch"           "tech01_death_crouch.mvf"                "Human Death Crouch 1"
+  +Action:                "hit_alarm"              "tech01_hit_alarm.mvf"                   ""
+  $Use:                   "ai response"
+  +radius:             2.0
+  $Collision Sphere:      "csphere_0" 0.5 0.5
+  $Collision Sphere:      "csphere_1" 1.0 1.0
+  $Collision Sphere:      "csphere_2" 5.0 2.0
+  $Num Skins: 5
+        $Skin: "b" ("comp_tech_1a.tga" "hendrix_2.tga" "comp_tech_3a.tga" "comp_tech_1a.tga" "comp_tech_1a-mip2.tga" "hendrix_2-mip2.tga" "comp_tech_3a-mip2.tga" "comp_tech_1a-mip2.tga" "comp_tech_1a-mip3.tga" "hendrix_2-mip3.tga" "comp_tech_3a-mip3.tga" "comp_tech_1a-mip3.tga")
+  $Skin: "c" ("comp_tech_1b.tga" "comp_tech_2b.tga" "comp_tech_3b.tga" "comp_tech_1a.tga" "comp_tech_1b-mip2.tga" "comp_tech_2b-mip2.tga" "comp_tech_3b-mip2.tga" "comp_tech_1b-mip2.tga" "comp_tech_1b-mip3.tga" "comp_tech_2b-mip3.tga" "comp_tech_3b-mip3.tga" "comp_tech_1b-mip3.tga")
+        $Skin: "d" ("comp_tech_1b.tga" "comp_tech_2b.tga" "comp_tech_3d.tga" "comp_tech_1a.tga" "comp_tech_1b-mip2.tga" "comp_tech_2b-mip2.tga" "comp_tech_3d-mip2.tga" "comp_tech_1b-mip2.tga" "comp_tech_1b-mip3.tga" "comp_tech_2b-mip3.tga" "comp_tech_3d-mip3.tga" "comp_tech_1b-mip3.tga")
+  $Skin: "e" ("comp_tech_1c.tga" "hendrix_2.tga" "comp_tech_3e.tga" "comp_tech_1c.tga" "comp_tech_1c-mip2.tga" "hendrix_2-mip2.tga" "comp_tech_3e-mip2.tga" "comp_tech_1c-mip2.tga" "comp_tech_1c-mip3.tga" "hendrix_2-mip3.tga" "comp_tech_3e-mip3.tga" "comp_tech_1c-mip3.tga")
+  $Skin: "hendrix"  ("hendrix_1.tga" "hendrix_2.tga" "hendrix_3.tga" "hendrix_1.tga" "hendrix_1-mip2.tga" "hendrix_2-mip2.tga" "hendrix_3-mip2.tga" "hendrix_1-mip2.tga" "hendrix_1-mip3.tga" "hendrix_2-mip3.tga" "hendrix_3-mip3.tga" "hendrix_1-mip3.tga")
+  $Body Temperature(F): 90.0
+  $RFE Level1:        "Ultor"
+
+  $Name:                  "tech1"
+  $V3D Filename:          "tech01.vcm"
+  $LOD Distances:     {6 9 35}
+  $Movemode:              "run"
+  $Mass:                  100
+  $Material:              "flesh"
+  $Flags:                 ("walk" "sentient" "humanoid") 
+  $Flags2:                ("collide_player")
+  $Collision Radius:      0.85
+  $Collision Damage Given:  10.0
+  $Movement Radius:     0.5
+  $FOV:                   180
+  $Envirosuit:             0
+  $Life:                  25
+  $Damage Type Factor:    "armor piercing bullet"   1.5
+  $Max Vel:          6.0
+     +slow factor:        0.3
+     +fast factor:        1.5
+  $Acceleration:          20.0
+  $Max Rot Vel:           10.0
+  $Rot Acceleration:      10.0
+  $Allowed Weapons:       ("")
+  $Default Primary:       ""
+  $Default Secondary:     ""
+   $Helmet V3D Filename:   "Tech01_helmet.V3D"
+  $Unholster Delay:       0.33
+  $Attack Style:          "Direct"
+  $Blind Pursuit Time:    30.0
+  $Persona:         "tech"
+  $FlySnd:                ""
+  $Min FlySnd Volume:     0.6
+  $Footstep Sound:        "Default Footstep"
+  $Footstep Sound:        "Rock Footstep"
+  $Footstep Sound:        "Metal Footstep"
+  $Footstep Sound:        "Solid Footstep"
+  $LandSnd:               "Default Land"
+  $Low_Pain Sounds:       "Tech Small Pain"
+  $Med_Pain Sounds:       "Tech Large Pain"
+  $Squash Sounds:     "Character Squash"
+  +State:                 "stand"                  "tech01_stand.mvf"
+  +State:                 "attack_stand"           "tech01_stand.mvf"
+  +State:                 "walk"                   "tech01_walk.mvf"
+    +Footstep Trigger:  5 19
+  +State:                 "run"                    "tech01_run.mvf"
+    +Footstep Trigger:      6 15
+  +State:                 "flee_run"               "tech01_run_flee.mvf"
+    +Footstep Trigger:      6 15
+  +State:                 "flail_run"              "tech01_run_flail.mvf"
+    +Footstep Trigger:      6 15
+  +State:                 "freefall"               "tech01_freefall.mvf"
+  +State:                 "cower"                  "tech01_cower_loop.mvf"
+  +State:                 "crouch"                 "tech01_crouch.mvf"
+  +Action:                "idle_1"                 "tech01_idle_01.mvf"                     "Tech1 Idle"
+  +Action:                "speak"                  "tech01_talk.mvf"                        ""
+  +Action:                "speak_short"            "tech01_talk_short.mvf"                  ""
+  +Action:                "corpse_drop"            "tech01_death_corpse_drop.mvf"           ""
+  +Action:                "corpse_carry"           "tech01_corpse_carry.mvf"                ""
+  +Action:                "flinch_chest"           "tech01_flinch.mvf"                      ""
+  +Action:                "flinch_back"            "tech01_flinch_back.mvf"                 ""
+  +Action:                "flinch_leg_left"        "tech01_flinch_leg_L.mvf"                ""
+  +Action:                "flinch_leg_right"       "tech01_flinch_leg_R.mvf"                ""
+  +Action:                "death_generic"          "tech01_death_generic.mvf"               "Human Death Generic 1"
+  +Action:                "death_blast_forward"    "tech01_blast_forwards.mvf"              "Human Death Blast Forward 1"
+  +Action:                "death_blast_backward"   "tech01_blast_back.mvf"                  "Human Death Blast Backward 1"
+  +Action:                "death_head_forward"     "tech01_death_head_fore.mvf"             "Human Death Head Forward 1"
+  +Action:                "death_head_backward"    "tech01_death_head_back.mvf"             "Human Death Head Backward 1"
+  +Action:                "death_head_neutral"     "tech01_death_generic.mvf"               "Human Death Generic 1"
+  +Action:                "death_chest_forward"    "tech01_death_torso_forward.mvf"         "Human Death Chest Forward 1"
+  +Action:                "death_chest_backward"   "tech01_death_spin_fall_L.mvf"           "Tech1 Death Spin L"
+  +Action:                "death_chest_neutral"    "tech01_death_generic.mvf"               "Human Death Generic 1"
+//  +Action:                "death_leg_left"         "tech01_death_leg_L.mvf"                 "Human Death Left 1"
+  +Action:                "death_leg_right"        "tech01_death_leg_R.mvf"                 "Human Death Right 1"
+  +Action:                "death_crouch"           "tech01_death_crouch.mvf"                "Human Death Crouch 1"
+  +Action:                "hit_alarm"              "tech01_hit_alarm.mvf"                   ""
+  $Use:                   "ai response"
+  +radius:             2.0
+  $Collision Sphere:      "csphere_0" 0.5 0.5
+  $Collision Sphere:      "csphere_1" 1.0 1.0
+  $Collision Sphere:      "csphere_2" 5.0 2.0
+  $Num Skins: 5
+  $Skin: "b" ("tech1_append.tga" "tech1_chest.tga" "tech1_face_b.tga" "tech1_append_mip1.tga" "tech1_chest_mip1.tga" "tech1_face_b_mip1.tga" "tech1_append_mip2.tga" "tech1_chest_mip2.tga" "tech1_face_b_mip2.tga")
+  $Skin: "c" ("tech1_append_b.tga" "tech1_chest_b.tga" "tech1_face_e.tga" "tech1_append_b-mip2.tga" "tech1_chest_b-mip2.tga" "tech1_face_e-mip2.tga" "tech1_append_b-mip3.tga" "tech1_chest_b-mip3.tga" "tech1_face_e-mip3.tga")
+  $Skin: "d" ("tech1_append_c.tga" "tech1_chest_c.tga" "tech1_face_f.tga" "tech1_append_c-mip2.tga" "tech1_chest_c-mip2.tga" "tech1_face_f-mip2.tga" "tech1_append_c-mip3.tga" "tech1_chest_c-mip3.tga" "tech1_face_f-mip3.tga")
+  $Skin: "e" ("tech1_append_c.tga" "tech1_chest_c.tga" "tech1_face_g.tga" "tech1_append_c-mip2.tga" "tech1_chest_c-mip2.tga" "tech1_face_g-mip2.tga" "tech1_append_c-mip3.tga" "tech1_chest_c-mip3.tga" "tech1_face_g-mip3.tga")
+  $Skin: "f" ("tech1_append_b.tga" "tech1_chest_b.tga" "tech1_face_h.tga" "tech1_append_b-mip2.tga" "tech1_chest_b-mip2.tga" "tech1_face_h-mip2.tga" "tech1_append_b-mip3.tga" "tech1_chest_b-mip3.tga" "tech1_face_h-mip3.tga")
+  $Body Temperature(F): 90.0
+  $RFE Level1:        "Ultor"
+
+  $Name:                  "admin_fem"
+  $V3D Filename:          "admin_fem.vcm"
+        $LOD Distances:     { 6 9 }
+  $Movemode:              "run"
+  $Mass:                  100
+  $Material:              "flesh"
+  $Flags:                 ("walk" "sentient" "humanoid") 
+  $Flags2:                ("collide_player")
+  $Collision Radius:      0.85
+  $Collision Damage Given:  10.0
+  $Movement Radius:     0.5
+  $FOV:                   180
+  $Envirosuit:             0
+  $Life:                  20
+  $Damage Type Factor:    "armor piercing bullet"   1.5
+  $Max Vel:          6.0
+     +slow factor:        0.3
+     +fast factor:        1.5
+  $Acceleration:          20.0
+  $Max Rot Vel:           10.0
+  $Rot Acceleration:      10.0
+  $Allowed Weapons:       ("")
+  $Default Primary:       ""
+  $Default Secondary:     ""
+  $Unholster Delay:       0.33
+  $Attack Style:          "Direct"
+  $Blind Pursuit Time:    30.0
+  $Persona:       "admin_fem"
+  $FlySnd:                ""
+  $Min FlySnd Volume:     0.6
+  $Footstep Sound:        "Default Footstep"
+  $Footstep Sound:        "Rock Footstep"
+  $Footstep Sound:        "Metal Footstep"
+  $Footstep Sound:        "Solid Footstep"
+  $LandSnd:               "Default Land"
+  $Low_Pain Sounds:       "Admf Small Pain"
+  $Med_Pain Sounds:       "Admf Large Pain"
+  $Squash Sounds:     ""
+  +State:                 "stand"                  "admin_fem_stand.mvf"
+  +State:                 "attack_stand"           "admin_fem_stand.mvf"
+        +State:                 "walk"                   "admin_fem_walk.mvf"
+    +Footstep Trigger:  5 19
+  +State:                 "run"                    "admin_fem_run.mvf"
+    +Footstep Trigger:      6 15
+  +State:                 "flee_run"               "admin_fem_run_flee.mvf"
+    +Footstep Trigger:      6 15
+  +State:                 "flail_run"               "adfm_run_flail.mvf"
+    +Footstep Trigger:      6 15
+  +State:                 "freefall"               "ADFM_freefall.mvf"
+  +State:                 "cower"                  "ADFM_cower.mvf"
+//  +State:                 "swim_stand"            ""
+//  +State:                 "swim_walk"             ""
+  +State:                 "crouch"                 "ADFM_crouch.mvf"
+  +Action:                "idle_1"                 "admin_fem_idle01.mvf"                   "Tech1 Idle"
+  +Action:                "speak"                  "admin_fem_talk.mvf"                     ""
+  +Action:                "speak_short"            "admin_fem_talk_short.mvf"               ""
+        +Action:                "corpse_carry"           "admin_fem_corpsecarry.mvf"              ""
+  +Action:                "corpse_drop"            "admin_fem_corpsedrop.mvf"               ""
+  +Action:                "flinch_chest"           "ADFM_flinch_chest.mvf"                  ""
+  +Action:                "flinch_back"            "ADFM_flinch_back.mvf"                   ""
+  +Action:                "flinch_leg_left"        "ADFM_flinch_leg_left.mvf"               ""
+  +Action:                "flinch_leg_right"       "ADFM_flinch_leg_right.mvf"              ""
+  +Action:                "death_generic"          "ADFM_death_generic.mvf"                 "Human Death Generic 1"
+  +Action:                "death_blast_forward"    "ADFM_death_blast_forwards.mvf"          "Human Death Blast Forward 1"
+  +Action:                "death_blast_backward"   "ADFM_death_blast_backwards.mvf"         "Human Death Blast Backward 1"
+  +Action:                "death_head_forward"     "ADFM_death_head_forwards.mvf"           "Human Death Head Forward 1"
+  +Action:                "death_head_backward"    "ADFM_death_head_backwards.mvf"          "Human Death Head Backward 1"
+  +Action:                "death_head_neutral"     "ADFM_death_generic.mvf"                 "Human Death Generic 1"
+  +Action:                "death_chest_forward"    "ADFM_death_chest_forwards.mvf"          "Human Death Chest Forward 2"
+  +Action:                "death_chest_backward"   "ADFM_death_chest_backwards.mvf"         "Human Death Chest Backward 1"
+  +Action:                "death_chest_neutral"    "ADFM_death_generic.mvf"                 "Human Death Generic 1"
+  +Action:                "death_leg_left"         "ADFM_death_leg_left.mvf"                "Human Death Left 1"
+//  +Action:                "death_leg_right"        "ADFM_death_leg_right.mvf"               "Human Death Right 1"
+  +Action:                "death_crouch"           "ADFM_death_crouch.mvf"                  "Human Death Crouch 1"
+  +Action:                "hit_alarm"              "ADFM_hit_alarm.mvf"                     ""
+  $Use:                   "ai response"
+  +radius:             2.0
+  $Collision Sphere:      "csphere_0" 0.5 0.5
+  $Collision Sphere:      "csphere_1" 1.0 1.0
+  $Collision Sphere:      "csphere_2" 5.0 2.0
+  $Num Skins: 5
+  $Skin: "b" ("admn_f_legs.tga" "admn_f_torso_d.tga" "admn_f_face_b.tga" "admn_f_legs-mip2.tga" "admn_f_torso_d-mip2.tga" "admn_f_face_b-mip2.tga" "admn_f_legs-mip3.tga" "admn_f_torso_d-mip3.tga" "admn_f_face_b-mip3.tga")
+  $Skin: "c" ("admn_f_legs_b.tga" "admn_f_torso_c.tga" "admn_f_face_c.tga" "admn_f_legs_b-mip2.tga" "admn_f_torso_c-mip2.tga" "admn_f_face_c-mip2.tga" "admn_f_legs_b-mip3.tga" "admn_f_torso_c-mip3.tga" "admn_f_face_c-mip3.tga")
+  $Skin: "d" ("admn_f_legs_b.tga" "admn_f_torso_c.tga" "admn_f_face_e.tga" "admn_f_legs_b-mip2.tga" "admn_f_torso_c-mip2.tga" "admn_f_face_e-mip2.tga" "admn_f_legs_b-mip3.tga" "admn_f_torso_c-mip3.tga" "admn_f_face_e-mip3.tga")
+  $Skin: "e" ("admn_f_legs_b.tga" "admn_f_torso_b.tga" "admn_f_face_d.tga" "admn_f_legs_b-mip2.tga" "admn_f_torso_b-mip2.tga" "admn_f_face_d-mip2.tga" "admn_f_legs_b-mip3.tga" "admn_f_torso_b-mip3.tga" "admn_f_face_d-mip3.tga")
+  $Skin: "f" ("admn_f_legs.tga" "admn_f_torso.tga" "admn_f_face_f.tga" "admn_f_legs-mip2.tga" "admn_f_torso-mip2.tga" "admn_f_face_f-mip2.tga" "admn_f_legs-mip3.tga" "admn_f_torso-mip3.tga" "admn_f_face_f-mip3.tga")
+  $Body Temperature(F): 90.0
+  $RFE Level1:        "Ultor"
+
+#End
+
+#Strings
+
+#2
+En: "Do not remove memory card (8MB) (for PlayStation\v183 2)."
+Gr: "Memory Card (8 MB) (für PlayStation\v183 2) nicht entfernen."
+Fr: "Ne pas retirer la memory card (carte mémoire) (8 MB) (pour PlayStation\v183 2)."
+
+#3
+En: "Press Fire (%s) to respawn."
+Gr: "Drücken Sie Feuer (%s), um weiterzumachen."
+Fr: "Appuyez sur Feu (%s) pour renaître."
+
+// As in texture resolution.
+#999
+En: "Invalid Name"
+Gr: "(gr) Invalid Name"
+Fr: "(fr) Invalid Name"
+
+
+#End
+
+#Vclips
+
+$Name:               "yellboom"
+//$VBM Filename:       "yelboom.vbm"
+//$VBM Glow:            true
+$Flags:         ("code_explode")
+$Explosion Name:    "rocket hit"
+$Foley Sound:        "light break"
+$particle count:     60
+$pos:                <0,0,0>
+$dir:                <0,0,1>
+$dir_rand:           -1
+$min_vel:            2
+$max_vel:            4
+$spawn_radius:       .5
+$emitter_flags:      ""
+$initially_on:      yes
+$alternate_states:  no
+$min_life_secs:      2
+$max_life_secs:      4
+$min_pradius:        0.005
+$max_pradius:        0.05
+$growth_rate:        0
+$acceleration:       1
+$gravity_scale:      2
+$bitmap:             "hotspark.tga"
+$particle color:     {255,255,255,255}
+$particle color dest:{255,255,255,0}
+$particle flags:     "gravity, clr_change, glow, vel_stretch"
+$bounciness:         7
+$stickiness:         7
+
+#End
+
+#Sounds Start
+
+// name                    min_dist   volume   rolloff
+"powerup_pickup.wav"        2.5       0.70     1.0       // powerup pickup
+"powerup_respawn.wav"       1.0       0.70     1.0       // powerup respawn
+"negative_Beep.wav"         5.0       0.80     1.0       // negative response beep
+
+#Sounds End
+
+#Entity Sounds
+
+
+$Name:        "Default Footstep"
+$Sounds:      4
+$Material:      "default"
+$Sound:       "Walk_Solid_01.wav"   8 0.4
+$Sound:       "Walk_Solid_02.wav"   8 0.4
+$Sound:       "Walk_Solid_03.wav"   8 0.4
+$Sound:       "Walk_Solid_04.wav"   8 0.4
+$Sound:       "Walk_Solid_05.wav"   8 0.4
+$Sound:       "Walk_Solid_06.wav"   8 0.4
+
+#End
+
+#Custom Sound Sets
+
+$name:      "glass break"
++sound:      "all" 3
+          "Glass_break_01.wav"       4 0.9
+          "Glass_break_02.wav"       4 0.9
+          "Glass_break_03.wav"       4 0.9
+
+#End
+
+$Name: "eos"
+En:
+Eos, the leader of the Red Faction rebellion,
+is dead.
+
+Without her leadership,
+Ultor prevailed and
+wiped out the rest of the Red Faction.
+#end
+
+Gr:
+(gr)Eos, the leader of the Red Faction rebellion,
+is dead.
+
+Without her leadership,
+Ultor prevailed and
+wiped out the rest of the Red Faction.
+#end
+
+Fr:
+(fr)Eos, the leader of the Red Faction rebellion,
+is dead.
+
+Without her leadership,
+Ultor prevailed and
+wiped out the rest of the Red Faction.
+#end
+
+
+// ------------------------------------------------
+// Tmp
+// ------------------------------------------------
+
+#Tmp
+
+
+#End

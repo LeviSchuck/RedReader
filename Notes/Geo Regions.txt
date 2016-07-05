@@ -1,0 +1,14 @@
+uint32    num geo regions
+georegion*
+
+georegion
+uint32    uid
+uint16    unk1
+uint16    unk2
+float   x
+float   y
+float   z
+float   radius
+float   unk4
+float   unk5 (1.0)
+float   unk6 (1.0)
