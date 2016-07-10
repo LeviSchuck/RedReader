@@ -153,7 +153,7 @@ parseRFLTrigger = do
             bd <- parseV3
             ow <- AP.anyWord8
             return (Nothing, Just bt, Just bd, Just ow)
-    
+
     ar <- AB.anyWord32le
     at <- AB.anyWord32le
     uc <- AB.anyWord32le
@@ -216,7 +216,7 @@ parseRFLVertex :: Bool -> AP.Parser RFLVertex
 parseRFLVertex useLM = do
     i <- AB.anyWord32le
     tuv <- parseUV
-    luv <- if useLM 
+    luv <- if useLM
         then do
             uv <- parseUV
             return $ Just uv
@@ -293,7 +293,7 @@ parseRFLNavPoint c = do
     b4 <- AP.anyWord8
     b5 <- AP.anyWord8
     let flagsV = V.fromList [b1,b2,b3,b4,b5]
-    ua1 <- if b2 > 0 
+    ua1 <- if b2 > 0
         then do
             bs <- AP.take 36
             return $ Just bs
@@ -376,7 +376,7 @@ parseRFLEvent = do
     ua2 <- AP.take 8
     (ua3,s1,s2) <- do
         let mode1 = if (any (cn ==)
-                [ 
+                [
                 ])
                 then Just ()
                 else Nothing
@@ -409,7 +409,7 @@ parseRFLEvent = do
         , "Teleport"
         , "Teleport_Player"
         , "Play_Vclip"
-        ]) 
+        ])
         then do
             m3 <- parseMatrix3
             return $ Just m3
@@ -668,7 +668,7 @@ parseRFLBrush c = do
     faceV <- parseVector (fromIntegral faceC) parseRFLFace
     un1 <- AB.anyWord32le
     -- traceM ("Un1: " ++ niceHex32 un1)
-    ua3 <- if un1 /= 0 
+    ua3 <- if un1 /= 0
         then do
             bs <- AP.take ((fromIntegral un1) * 96)
             return $ Just bs
@@ -719,11 +719,11 @@ parseRFLSection c m = case rflSectionType m of
         lp <- parseRFLLevelProperties
         return $ RFLSectLP lp
     RFLStaticGeo -> do
-        sc <- parseRFLSectionRooms c 
+        sc <- parseRFLSectionRooms c
         return $ RFLSectSG sc
     RFLLights -> do
         ls <- parseRFLSectX parseRFLLight
-        return $ RFLSectLT ls 
+        return $ RFLSectLT ls
     RFLNavPoints -> do
         navs <- parseRFLSectNavPoints c
         return $ RFLSectNVP navs
@@ -796,41 +796,41 @@ parseRFL = do
     let c = RFContext (rflVersion h)
     traceM ("Got header " ++ show h)
     let rs = do
-        traceM "Gonna try to parse a section"
-        hd <- parseRFLSectionHeader
-        traceM ("Header " ++ show hd)
-        (bs, s) <- AP.match (parseRFLSection c hd)
-        -- traceM ("Body " ++ show s)
-        if ((B.length bs) /= fromIntegral (rflSectionLength hd))
-            then do
-                traceM ("Length does not match precisely, expected "
-                        ++ show (fromIntegral (rflSectionLength hd))
-                        ++ " but read "
-                        ++ show (B.length bs)
-                        ++ " difference is "
-                        ++ show (fromIntegral (rflSectionLength hd) - B.length bs)
-                        )
-                let rm = (fromIntegral (rflSectionLength hd)) - (B.length bs)
-                if rm < 0
-                    then traceM "Read too many bytes D:"
-                    else do
-                        ex <- AP.take rm
-                        traceM ("Reading remainder bytes.. " ++ hexPrint ex)
-            else do
-                traceM "Read precisely expected bytes"
-                return ()
-            
-        return (hd, s)
-    let rsects = do
-        r <- rs
-        let (hd,_) = r
-        e <- AP.atEnd
-        case (rflSectionType hd,e) of
-            (RFLEnd,_) -> return []
-            (_,True) -> return []
-            _ -> do
-                rest <- rsects
-                return (r:rest)
+            traceM "Gonna try to parse a section"
+            hd <- parseRFLSectionHeader
+            traceM ("Header " ++ show hd)
+            (bs, s) <- AP.match (parseRFLSection c hd)
+            -- traceM ("Body " ++ show s)
+            if ((B.length bs) /= fromIntegral (rflSectionLength hd))
+                then do
+                    traceM ("Length does not match precisely, expected "
+                            ++ show (fromIntegral (rflSectionLength hd))
+                            ++ " but read "
+                            ++ show (B.length bs)
+                            ++ " difference is "
+                            ++ show (fromIntegral (rflSectionLength hd) - B.length bs)
+                            )
+                    let rm = (fromIntegral (rflSectionLength hd)) - (B.length bs)
+                    if rm < 0
+                        then traceM "Read too many bytes D:"
+                        else do
+                            ex <- AP.take rm
+                            traceM ("Reading remainder bytes.. " ++ hexPrint ex)
+                else do
+                    traceM "Read precisely expected bytes"
+                    return ()
+
+            return (hd, s)
+        rsects = do
+            r <- rs
+            let (hd,_) = r
+            e <- AP.atEnd
+            case (rflSectionType hd,e) of
+                (RFLEnd,_) -> return []
+                (_,True) -> return []
+                _ -> do
+                    rest <- rsects
+                    return (r:rest)
     scs <- rsects
     traceM "Returning"
     -- AP.endOfInput

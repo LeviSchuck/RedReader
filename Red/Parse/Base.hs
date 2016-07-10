@@ -138,10 +138,10 @@ parseTextNumbers = do
         return False
 
     let gn = do
-        ns <- AP.takeWhile1 (AP.inClass "1234567890")
-        let ns1 = map (digitToInt . chr . fromIntegral) (B.unpack ns)
-        let ns2 = foldl (\x n -> x * 10 + n) 0 ns1
-        return (ns2, B.length ns)
+            ns <- AP.takeWhile1 (AP.inClass "1234567890")
+            let ns1 = map (digitToInt . chr . fromIntegral) (B.unpack ns)
+            let ns2 = foldl (\x n -> x * 10 + n) 0 ns1
+            return (ns2, B.length ns)
 
     a <- AP.option Nothing $ do
         (n, _) <- gn
@@ -181,4 +181,3 @@ parseTextNumberFloat = do
     case f of
         Nothing -> fail "Not a float"
         Just x -> return $ x
-
