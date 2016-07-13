@@ -7,6 +7,7 @@ import Data.List (groupBy,nub)
 import Data.Maybe
 import Control.Monad
 import Data.Map (Map)
+import Data.String(fromString)
 import Debug.Trace
 import qualified Data.Map as M
 import qualified Data.Vector as V
@@ -42,11 +43,21 @@ baseVPPs =
 
 main :: IO ()
 main = do
-    let toLoad = map ("/Volumes/ML1/RedFaction/" ++) baseVPPs
+
+
+    args <- getArgs
+    let level = case args of
+            x:_ -> fromString x
+            _ -> "L1S1.rfl"
+        rfloc = case args of
+            _:x:_ -> x
+            _ -> "/Volumes/ML1/RedFaction/"
+
+    let toLoad = map (rfloc ++) baseVPPs
 
     vpps <- foldM addVPP emptyVPPData toLoad
 
-    Just rfl <- loadMap vpps "L1S1.rfl"
+    Just rfl <- loadMap vpps level
 
     Just pipelineDesc <- decodeStrict <$> SB.readFile "render.json"
 
