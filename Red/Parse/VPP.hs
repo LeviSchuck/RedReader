@@ -38,13 +38,13 @@ parseVPP = do
     let c = (vppHeaderFileCount header)
     traceM ("VPP File count: " ++ show c)
     fs <- wa $ parseVector c  parseVPPEntry
-    traceM ("VPP Files:")
-    forM_ fs $ \fh -> do
+    -- traceM ("VPP Files:")
+    {-forM_ fs $ \fh -> do
         let fn = vppEntryFileName fh
             fs = vppEntryFileSize fh
         traceM ("- " ++ show fn ++ " size " ++ show fs)
+    -}
     bins <- forM fs $ \fh -> wa $ AP.take $ fromIntegral (vppEntryFileSize fh)
     let combo = V.zip fs bins
     let files = V.foldl (\a (f,d) -> M.insert (vppEntryFileName f) d a) M.empty combo
     return $ VPP header fs files
-

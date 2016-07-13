@@ -447,7 +447,7 @@ parseRFLAmbientSound c = do
 parseRFLEAXEffect :: RFContext -> AP.Parser RFLEAXEffect
 parseRFLEAXEffect c = do
     ty <- parseLengthedText
-    traceM ("EAX: " ++ show ty)
+    -- traceM ("EAX: " ++ show ty)
     ua1 <- AP.take 4
     un1 <- parseLengthedText
     pars <- replicateM 12 parseFloat

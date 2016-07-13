@@ -6,7 +6,7 @@ version:             0.1.0.0
 -- synopsis:
 -- description:
 -- license:
-license-file:        LICENSE
+license-file:        LICENSE.md
 author:              Levi Schuck
 maintainer:          levi.schuck@gmail.com
 -- copyright:
@@ -34,20 +34,36 @@ library
                  ,   Red.Parse.RFL
                  ,   Red.Parse.TBL
                  ,   Red.Parse.VPP
+                 ,   Red.Support.FileSystem
 
-
+executable RedRender
+  hs-source-dirs:      App/Render
+  main-is:             Main.hs
+  default-language:    Haskell2010
+--  extra-source-files:  render.lc
+--                       render.json
+  build-depends:      base >=4.8 && <4.9
+                   ,  RedReader
+                   ,  bytestring
+                   ,  containers
+                   ,  vector
+                   ,  lambdacube-gl
+                   ,  lambdacube-ir
+                   ,  text
+                   ,  aeson
+                   ,  OpenGLRaw >= 3.1 && <4
+                   ,  GLFW-b >= 1.4.8
+                   ,  JuicyPixels >= 3.2 && <3.3
 
 executable RedParse
-  main-is:             App/Parse/Main.hs
+  hs-source-dirs:      App/Parse
+  main-is:             Main.hs
   -- other-modules:
   -- other-extensions:
   build-depends:       base >=4.8 && <4.9
                     ,  RedReader
-                    ,  attoparsec
-                    ,  attoparsec-binary
                     ,  bytestring
-                    ,  containers
-                    ,  vector
+
 
   -- hs-source-dirs:
   default-language:    Haskell2010

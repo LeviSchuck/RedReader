@@ -34,3 +34,6 @@ data VPP = VPP
     , vppFiles :: V.Vector VPPEntry
     , vppFileMap :: M.Map B.ByteString B.ByteString
     } deriving (Show)
+
+getFile :: VPP -> B.ByteString -> Maybe B.ByteString
+getFile vpp name = M.lookup name (vppFileMap vpp)

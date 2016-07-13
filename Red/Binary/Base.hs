@@ -30,8 +30,8 @@ data RFAABB = RFAABB
     } deriving (Eq,Ord,Show)
 
 data RFUV = RFUV
-    { rflu :: Float
-    , rflv :: Float
+    { rfu :: Float
+    , rfv :: Float
     } deriving (Eq,Ord,Show)
 
 data RFRGB24 = RFRGB24
