@@ -38,6 +38,10 @@ baseVPPs =
     , "levels2.vpp"
     , "levels3.vpp"
     , "levelsm.vpp"
+    , "ui.vpp"
+    , "tables.vpp"
+    , "motions.vpp"
+    , "meshes.vpp"
     ]
 
 
@@ -153,7 +157,7 @@ main = do
             loadTexture m (tex, _) = case M.lookup (tex :: SB.ByteString) (m :: M.Map SB.ByteString TextureData) of
                 Just _ -> return m
                 Nothing -> do
-                    traceM ("Loading texture: " ++ show tex)
+                    -- traceM ("Loading texture: " ++ show tex)
                     vppBytes <- loadFile vpps tex
                     case vppBytes of
                         Nothing -> do

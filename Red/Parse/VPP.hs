@@ -29,7 +29,8 @@ parseVPPEntry = do
     name60 <- AP.take 60
     size <- AB.anyWord32le
     let name = B.takeWhile (/= 0) name60
-    return $ VPPEntry name size
+    return $ VPPEntry (toLowerBytes name) size
+
 
 parseVPP :: AP.Parser VPP
 parseVPP = do
@@ -39,11 +40,11 @@ parseVPP = do
     traceM ("VPP File count: " ++ show c)
     fs <- wa $ parseVector c  parseVPPEntry
     -- traceM ("VPP Files:")
-    {-forM_ fs $ \fh -> do
+    forM_ fs $ \fh -> do
         let fn = vppEntryFileName fh
             fs = vppEntryFileSize fh
         traceM ("- " ++ show fn ++ " size " ++ show fs)
-    -}
+    
     bins <- forM fs $ \fh -> wa $ AP.take $ fromIntegral (vppEntryFileSize fh)
     let combo = V.zip fs bins
     let files = V.foldl (\a (f,d) -> M.insert (vppEntryFileName f) d a) M.empty combo

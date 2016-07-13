@@ -1,6 +1,7 @@
 module Red.Binary.VPP where
 
 import Data.Word
+import Data.Char(ord)
 
 import qualified Data.ByteString as B
 import qualified Data.Vector as V
@@ -35,5 +36,16 @@ data VPP = VPP
     , vppFileMap :: M.Map B.ByteString B.ByteString
     } deriving (Show)
 
+
+toLowerBytes :: B.ByteString -> B.ByteString
+toLowerBytes bs = B.map f bs where
+    f b = if b >= cA && b <= cZ
+        then b - cA + cLa
+        else b
+    cLa = fromIntegral (ord 'a')
+    cA = fromIntegral (ord 'A')
+    cZ = fromIntegral (ord 'Z')
+
+
 getFile :: VPP -> B.ByteString -> Maybe B.ByteString
-getFile vpp name = M.lookup name (vppFileMap vpp)
+getFile vpp name = M.lookup (toLowerBytes name) (vppFileMap vpp)

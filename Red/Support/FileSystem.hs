@@ -2,6 +2,8 @@ module Red.Support.FileSystem where
 
 import Control.Monad
 
+import Debug.Trace
+
 import qualified Data.Map as M
 import qualified Data.ByteString as B
 
@@ -34,8 +36,11 @@ addVPP vppdata path = do
 
 loadFile :: VPPData -> B.ByteString -> IO (Maybe B.ByteString)
 loadFile vppData file = do
-    case M.lookup file (filesLoaded vppData) of
+    -- traceM ("Loading file: " ++ show file)
+    let fileLower = toLowerBytes file
+    case M.lookup fileLower (filesLoaded vppData) of
         Nothing -> do
+            traceM ("Not listed in VPPs " ++ show file)
             -- TODO: fallback to local files
             return Nothing
         Just x -> case M.lookup x (vppsLoaded vppData) of
