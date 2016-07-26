@@ -1,6 +1,7 @@
+
 makeFrame (time :: Float)
           -- (worldMat :: Mat 4 4 Float)
-          -- (viewProj :: Mat 4 4 Float)
+          (meshTransform :: Mat 4 4 Float)
           (texture :: Texture)
           (prims :: PrimitiveStream Triangle (Vec 4 Float, Vec 3 Float, Vec 3 Float))
 
@@ -8,14 +9,13 @@ makeFrame (time :: Float)
   `overlay`
       prims
     & mapPrimitives (\(p,n,uvw) ->
-       (   perspective 0.1 800 45 1
+       (
+       perspective 0.1 800 45 1
         *. lookat
-            (V3 ((sin time * 0.08) * 900)
-                ((sin time * 0.02) * 50)
-                ((cos time * 0.08) * 900)
-            )
+            (V3 1 80 0)
             (V3 0 0 0)
             (V3 0 1 0)
+        *. meshTransform
         *. p
         , V2 uvw%x (1 - uvw%y)
         ))
@@ -28,5 +28,6 @@ main = renderFrame $
    makeFrame (Uniform "time")
              -- (Uniform "worldMat")
              -- (Uniform "viewProj")
+             (Uniform "meshTransform")
              (Texture2DSlot "diffuse")
              (fetch "objects" (Attribute "position", Attribute "normal", Attribute "uvw"))

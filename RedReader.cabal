@@ -51,6 +51,7 @@ executable RedRender
                    ,  lambdacube-ir
                    ,  text
                    ,  aeson
+                   ,  vect
                    ,  OpenGLRaw >= 3.1 && <4
                    ,  GLFW-b >= 1.4.8
                    ,  JuicyPixels >= 3.2 && <3.3
